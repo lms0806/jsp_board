@@ -26,7 +26,7 @@
 				<span class = "icon-bar"></span>
 				<span class = "icon-bar"></span>
 			</button>
-			<a class = "navbar-brand" herf="main.jsp">JSP 게시판 웹 사이트</a>
+			<a class = "navbar-brand" herf="main.jsp">서원대 컴공</a>
 		</div>
 		<div class = "collapse navbar-collapse" id = "bs-example-navbar-collapse-1">
 			<ul class = "nav navbar-nav">
@@ -70,7 +70,7 @@
 	</nav>
 	<div class = "container">
 		<div class = "row">
-			<form metohd = "post" action="writeAction.jsp">
+			<form method = "post" action="writeAction.jsp">
 				<table class = "table table-striped" style = "text-align : center; border : 1px solid #dddddd"><%-- 테이블이 더욱 잘보이도록 해줌 --%>
 					<thead>
 						<tr>
@@ -88,6 +88,7 @@
 				</table>
 				<input type = "submit" class = "btn btn-primary pull-right" value = "글쓰기">
 			</form>
+			
 			<form method="post" enctype="multipart/form-data" action="imgupload.jsp">
 				<input type="file" name="filename1" size=40> 
 				<input type="submit" value="업로드">

@@ -5,6 +5,7 @@
 <%@ page import = "bbs.WebDAO" %>
 <%@ page import = "comment.Comment" %>
 <%@ page import = "comment.CommentDAO" %>
+<%@ page import="java.util.ArrayList"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -40,6 +41,11 @@
 		
 		WebDAO bbsDAO = new WebDAO();
 		bbsDAO.updateview(bbsID);
+		
+		int pageNumber = 1;
+		if(request.getParameter("pageNumber") != null){
+			pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
+		}
 	%>
 	<nav class = "navbar navbar-default">
 		<div class = "navbar-header">
@@ -134,35 +140,52 @@
 				}//작성자와 읽는자가 동일하면 수정가능 기능
 			%>
 			<br>
-			<table class = "table table-striped" style = "text-align : center; border : 1px solid #dddddd">
-				<thead>
-					<tr>
-						<th colspan = "3" style = "background-color : #eeeeee; text-align : center;">댓글 작성</th>
-					</tr><%-- 1행 --%>
-				</thead><%-- 속성을 알려줌 --%>
-				<tbody>
-					<tr>
-						<td style = "width: 95%;">
-							<input type = "text" class = "form-control" placeholder = "댓글" name = "bbsTitle" maxlength = "50">
-						</td>
-						<td>
-							<a href = "writecomment.jsp" class = "btn btn-primary">작성</a>
-						</td>
-					</tr>
-				</tbody>
-			</table>
+		</div>
+	</div>	
+	<div class = "container">
+		<div class = "row">	
+			<form method = "post" action="WriteCommentAction.jsp">
+				<table class = "table table-striped" style = "text-align : center; border : 1px solid #dddddd">
+					<thead>
+						<tr>
+							<th colspan = "2" style = "background-color : #eeeeee; text-align : center;">댓글 작성</th>
+						</tr><%-- 1행 --%>
+					</thead><%-- 속성을 알려줌 --%>
+					<tbody>
+						<tr>
+							<td style = "width: 95%;">
+								<input type = "hidden" class = "form-control" name = "webID" value=<% Integer.parseInt(request.getParameter("bbsID")); %>>
+								<input type = "text" class = "form-control" placeholder = "댓글" name = "commentCont" maxlength = "50">
+							</td>
+							<td>
+								<input type = "submit" class = "btn btn-primary pull-right" value = "작성">
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</form>
+		</div>
+	</div>
+	<div class = "container">
+		<div class = "row">
 			<table class = "table table-striped" style = "text-align : center; border : 1px solid #dddddd">
 				<thead>
 					<tr>
 						<th colspan = "3" style = "background-color : #eeeeee; text-align : center;">댓글</th>
 					</tr><%-- 1행 --%>
 				</thead><%-- 속성을 알려줌 --%>
-				<tbody>
-					<tr>
-						<td style = "width: 20%;"><%= comment.getUserID() %></td>
-						<td colspan = "2" style = "min-height: 200px; text-align: left;"><%= comment.getCommentCont().replaceAll(" ","&nbsp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll("\n","<br>") %></td>
-					</tr>
-				</tbody>
+				<%
+						CommentDAO commentDAO = new CommentDAO();
+						ArrayList<Comment> list = commentDAO.getList(pageNumber, bbs.getBbsID());
+						for(int i = 0; i < list.size(); i++){
+				%>
+				<tr>
+					<td><%= list.get(i).getUserID() %></td>
+					<td><%= list.get(i).getCommentCont() %></td>
+				</tr>
+				<%
+					}
+				%>
 			</table>
 		</div>
 	</div>
