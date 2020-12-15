@@ -15,10 +15,10 @@ public class CommentDAO {
 	
 	public CommentDAO() {
 		try {
-			String dbURL = "jdbc:mysql://localhost:3306/web?serverTimezone=UTC";
-			String dbID = "root";
-			String dbPassword = "3510";
-			Class.forName("com.mysql.jdbc.Driver");
+			String dbURL = "";
+			String dbID = "";
+			String dbPassword = "";
+			Class.forName("");
 			conn = DriverManager.getConnection(dbURL, dbID, dbPassword);
 		} catch(Exception e) {
 			e.printStackTrace();
