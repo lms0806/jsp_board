@@ -1,36 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <class-diagram version="1.2.3" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
   associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
-  <class id="1" language="java" name="bbs.Web" project="BBS" file="/BBS/src/bbs/Web.java" binary="false" 
-    corner="BOTTOM_RIGHT">    
-    <position height="516" width="213" x="235" y="91"/>    
+  <class id="1" language="java" name="ccomment.CcommentDAO" project="BBS" file="/BBS/src/ccomment/CcommentDAO.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="236" width="279" x="519" y="106"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="2" language="java" name="bbs.WebDAO" project="BBS" file="/BBS/src/bbs/WebDAO.java" binary="false" 
-    corner="BOTTOM_RIGHT">    
-    <position height="296" width="220" x="488" y="91"/>    
+  <class id="2" language="java" name="comment.CommentDAO" project="BBS" file="/BBS/src/comment/CommentDAO.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="256" width="271" x="838" y="106"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="3" language="java" name="user.User" project="BBS" file="/BBS/src/user/User.java" binary="false" 
-    corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="939" y="292"/>    
+  <class id="3" language="java" name="ccomment.Ccomment" project="BBS" file="/BBS/src/ccomment/Ccomment.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="396" width="257" x="1149" y="106"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="4" language="java" name="user.UserDAO" project="BBS" file="/BBS/src/user/UserDAO.java" binary="false" 
+  <class id="4" language="java" name="comment.Comment" project="BBS" file="/BBS/src/comment/Comment.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1200" y="192"/>    
+    <position height="336" width="253" x="1446" y="106"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      

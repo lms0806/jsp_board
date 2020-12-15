@@ -1,11 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ page import="bbs.WebDAO"%>
+<%@ page import="web.WebDAO"%>
 <%@ page import="java.io.PrintWriter"%>
 <%
 	request.setCharacterEncoding("UTF-8");
 %>
-<jsp:useBean id="bbs" class="bbs.Web" scope="page" />
+<jsp:useBean id="bbs" class="web.Web" scope="page" />
 <jsp:setProperty name="bbs" property="bbsTitle" />
 <jsp:setProperty name="bbs" property="bbsContent" />
 <!DOCTYPE html>

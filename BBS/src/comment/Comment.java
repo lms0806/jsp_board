@@ -1,27 +1,33 @@
 package comment;
 
 public class Comment {
+	private int commentID;
 	private int webID;
 	private String userID;
-	private String commentCont;
+	private String commentContent;
 	
-	public int getwebID() {
+	public int getCommentID() {
+		return commentID;
+	}
+	public void setCommentID(int commentID) {
+		this.commentID = commentID;
+	}
+	public int getWebID() {
 		return webID;
+	}
+	public void setWebID(int webID) {
+		this.webID = webID;
 	}
 	public String getUserID() {
 		return userID;
 	}
-	public String getCommentCont() {
-		return commentCont;
-	}
-	
-	public void setwebID(int webID) {
-		this.webID = webID;
-	}
-	public void setuserID(String userID) {
+	public void setUserID(String userID) {
 		this.userID = userID;
 	}
-	public void setCommentCont(String commentCont) {
-		this.commentCont = commentCont;
+	public String getCommentContent() {
+		return commentContent;
+	}
+	public void setCommentContent(String commentContent) {
+		this.commentContent = commentContent;
 	}
 }

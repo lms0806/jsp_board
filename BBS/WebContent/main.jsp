@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta name = "viewport" content = "width=device-width", initial-scale = "1">
+<meta name="viewport" content="width=device-width initial-scale=1">
 <link rel = "stylesheet" href = "css/bootstrap.min.css">
 <link rel = "stylesheet" href = "css/custom.css">
 <title>서원대학교 컴퓨터공학과 게시판</title>
@@ -33,6 +33,7 @@
 				<li class = "active"><a href = "main.jsp">메인</a><li>
 				<li><a href = "bbs.jsp">게시판</a><li>
 				<li><a href="MyWrite.jsp">내가 쓴 글</a><li>
+				<li><a href="bestlist.jsp">베스트글</a><li>
 			</ul>
 			<%
 				if(userID == null){

@@ -1,7 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.io.PrintWriter"%>
-<%@ page import="web.WebDAO"%>
-<%@ page import="web.Web"%>
+<%@ page import = "comment.Comment" %>
+<%@ page import = "comment.CommentDAO" %>
+<%@ page import = "ccomment.Ccomment" %>
+<%@ page import = "ccomment.CcommentDAO" %>
 <%@ page import="java.util.ArrayList"%>
 <!DOCTYPE html>
 <html>
@@ -27,6 +29,14 @@
 		if (session.getAttribute("userID") != null) {
 			userID = (String) session.getAttribute("userID");
 		}
+		int webID = 0;
+		if(request.getParameter("webID") != null){
+			webID = Integer.parseInt(request.getParameter("webID"));
+		}
+		int commentID = 0;
+		if(request.getParameter("commentID") != null){
+			commentID = Integer.parseInt(request.getParameter("commentID"));
+		}
 		int pageNumber = 1;
 		if(request.getParameter("pageNumber") != null){
 			pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
@@ -40,13 +50,13 @@
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="main.jsp">내가 쓴 글</a>
+			<a class="navbar-brand" href="main.jsp">베스트글</a>
 		</div>
 		<div class="collapse navbar-collapse" id="#bs-example-navbar-collapse-1">
 			<ul class="nav navbar-nav">
 				<li><a href="main.jsp">메인</a></li>
-				<li><a href="bbs.jsp">게시판</a></li>
-				<li class="active"><a href="MyWrite.jsp">내가 쓴 글</a><li>
+				<li class="active"><a href="bbs.jsp">게시판</a></li>
+				<li><a href="MyWrite.jsp">내가 쓴 글</a><li>
 				<li><a href="bestlist.jsp">베스트글</a><li>
 			</ul>
 			<%
@@ -79,51 +89,74 @@
 	</nav>
 	
 	<!-- 게시판 -->
-	<div class="container">
+	<div class = "container">
 		<div class = "row">
-			<table class="table table-striped" style="text-align:center; border:1px solid #dddddd"> 
+			<table class = "table table-striped" style = "text-align : center; border : 1px solid #dddddd">
 				<thead>
 					<tr>
-						<th style="background-color: #eeeeee; text-align: center;">번호</th>
-						<th style="background-color: #eeeeee; text-align: center;">제목</th>
-						<th style="background-color: #eeeeee; text-align: center;">작성자</th>
-						<th style="background-color: #eeeeee; text-align: center;">작성일</th>
-						<th style="background-color: #eeeeee; text-align: center;">추천수</th>
-						<th style="background-color: #eeeeee; text-align: center;">조회수</th>
-					</tr>
-				</thead>
-				<tbody>
-					<%
-						WebDAO bbsDAO = new WebDAO();
-						ArrayList<Web> list = bbsDAO.getList(pageNumber);
+						<th colspan = "3" style = "background-color : #eeeeee; text-align : center;">댓글</th>
+					</tr><%-- 1행 --%>
+				</thead><%-- 속성을 알려줌 --%>
+				<%
+					Comment comment = new CommentDAO().showComment(commentID);
+					CcommentDAO ccommentDAO = new CcommentDAO();
+					ArrayList<Ccomment> list = ccommentDAO.getList(pageNumber, commentID);
+				%>
+				<tr>
+					<td><%= comment.getUserID() %></td>
+					<td><%= comment.getCommentContent() %></td>
+					<td></td>
+				</tr>
+				<%
+					if(list.size() == 0){
+				%>
+				<tr>
+					<td>작성된 답글이 없습니다.</td>
+					<td></td>
+					<td></td>
+				</tr>
+				<%
+					} else{
 						for(int i = 0; i < list.size(); i++){
-							if(list.get(i).getUserID().equals(userID)){
-					%>
-					<tr>
-						<td><%= list.get(i).getBbsID() %></td>
-						<td><a href = "view.jsp?bbsID=<%= list.get(i).getBbsID() %>"><%= list.get(i).getBbsTitle().replaceAll(" ","&nbsp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll("\n","<br>") %></a></td>
-						<td><%= list.get(i).getUserID() %></td>
-						<td><%= list.get(i).getBbsDate().substring(0, 11) + list.get(i).getBbsDate().substring(11, 13) + "시" + list.get(i).getBbsDate().substring(14, 16) + "분" %></td>
-						<td><%= list.get(i).getWebBest() %></td>
-						<td><%= list.get(i).getWebViews() %></td>
-					</tr>
-					<%
-							}
+				%>
+				<tr>
+					<td><%= list.get(i).getUserid() %></td>
+					<td><%= list.get(i).getCcommentcontent()%></td>
+				<%
+							String comments = list.get(i).getCcommentcontent();
+				%>
+					<td><a onclick="return confirm('정말로 삭제하시겠습니까?')" href="deleteCcommentAction.jsp?commentID=<%= commentID %>&ccommentID=<%= list.get(i).getCcommentid() %>&ccomment=<%= list.get(i).getCcommentcontent() %>">삭제</a></td>
+				<tr>
+				<%
 						}
-					%>
-				</tbody>
+					}
+				%>
 			</table>
-			<%
-				if(pageNumber != 1){
-			%>	
-				<a href = "MyWrite.jsp?pageNumber=<%=pageNumber - 1%>" class = "btn btn-success btn-arraw-left">이전</a>
-			<%
-				} if(bbsDAO.nextPage(pageNumber + 1)){
-			%>
-				<a href = "MyWrite.jsp?pageNumber=<%= pageNumber + 1 %>" class = "btn btn-success btn-arraw-left">다음</a>
-			<%
-				}
-			%>
+		</div>
+	</div>
+	<div class = "container">
+		<div class = "row">	
+			<form method = "post" action="WriteCcommentAction.jsp">
+				<table class = "table table-striped" style = "text-align : center; border : 1px solid #dddddd">
+					<thead>
+						<tr>
+							<th colspan = "2" style = "background-color : #eeeeee; text-align : center;">답글 작성</th>
+						</tr><%-- 1행 --%>
+					</thead><%-- 속성을 알려줌 --%>
+					<tbody>
+						<tr>
+							<td style = "width: 95%;">
+								<input type = "hidden" class = "form-control" name = "webid" value=<%= webID %>>
+								<input type = "hidden" class = "form-control" name = "commentID" value=<%= commentID %>>
+								<input type = "text" class = "form-control" placeholder = "답글" name = "ccommentcontent" maxlength = "50">
+							</td>
+							<td>
+								<input type = "submit" class = "btn btn-primary pull-right" value = "작성">
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</form>
 		</div>
 	</div>
 	<!-- 애니매이션 담당 JQUERY -->

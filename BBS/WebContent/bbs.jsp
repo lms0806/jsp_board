@@ -1,14 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.io.PrintWriter"%>
-<%@ page import="bbs.WebDAO"%>
-<%@ page import="bbs.Web"%>
+<%@ page import="web.WebDAO"%>
+<%@ page import="web.Web"%>
 <%@ page import="java.util.ArrayList"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <!-- 뷰포트 -->
-<meta name="viewport" content="width=device-width" initial-scale="1">
+<meta name="viewport" content="width=device-width initial-scale=1">
 <!-- 스타일시트 참조  -->
 <link rel="stylesheet" href="css/bootstrap.css">
 <link rel = "stylesheet" href = "css/custom.css">
@@ -47,6 +47,7 @@
 				<li><a href="main.jsp">메인</a></li>
 				<li class="active"><a href="bbs.jsp">게시판</a></li>
 				<li><a href="MyWrite.jsp">내가 쓴 글</a><li>
+				<li><a href="bestlist.jsp">베스트글</a><li>
 			</ul>
 			<%
 				//로그인안된경우
@@ -87,6 +88,7 @@
 						<th style="background-color: #eeeeee; text-align: center;">제목</th>
 						<th style="background-color: #eeeeee; text-align: center;">작성자</th>
 						<th style="background-color: #eeeeee; text-align: center;">작성일</th>
+						<th style="background-color: #eeeeee; text-align: center;">추천수</th>
 						<th style="background-color: #eeeeee; text-align: center;">조회수</th>
 					</tr>
 				</thead>
@@ -101,6 +103,7 @@
 						<td><a href = "view.jsp?bbsID=<%= list.get(i).getBbsID() %>"><%= list.get(i).getBbsTitle().replaceAll(" ","&nbsp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll("\n","<br>") %></a></td>
 						<td><%= list.get(i).getUserID() %></td>
 						<td><%= list.get(i).getBbsDate().substring(0, 11) + list.get(i).getBbsDate().substring(11, 13) + "시" + list.get(i).getBbsDate().substring(14, 16) + "분" %></td>
+						<td><%= list.get(i).getWebBest() %></td>
 						<td><%= list.get(i).getWebViews() %></td>
 					</tr>
 					<%

@@ -2,6 +2,8 @@
     pageEncoding="UTF-8"%>
 <%@ page import = "web.Web" %>
 <%@ page import = "web.WebDAO" %>
+<%@ page import = "comment.Comment" %>
+<%@ page import = "comment.CommentDAO" %>
 <%@ page import = "java.io.PrintWriter" %>
 <%
 	request.setCharacterEncoding("UTF-8");
@@ -36,6 +38,17 @@
 			script.println("location.href = 'bbs.jsp'");
 			script.println("</script>");
 		}
+		String comment = "";
+		if(request.getParameter("comments") != null){
+			comment = request.getParameter("comments");
+		}
+		if(comment.equals("")){
+			PrintWriter script = response.getWriter();
+			script.println("<script>");
+			script.println("alert('유효하지 않는 댓글입니다.')");
+			script.println("location.href = 'bbs.jsp'");
+			script.println("</script>");
+		}
 		Web bbs = new WebDAO().getBbs(bbsID);
 		if(!userID.equals(bbs.getUserID())){
 			PrintWriter script = response.getWriter();
@@ -45,31 +58,22 @@
 			script.println("</script>");
 		}
 		else{
-			if(request.getParameter("bbsTitle") == null || request.getParameter("bbsContent") == null
-			|| request.getParameter("bbsTitle").equals("") || request.getParameter("bbsContent").equals("")){
-		PrintWriter script = response.getWriter();
-		script.println("<script>");
-		script.println("alert('입력이 안된 사항이 있습니다.')");
-		script.println("history.back()");
-		script.println("</script>");
-			}//입력이 안된 경우
-			else{
-		WebDAO bbsDAO = new WebDAO();
-		int result = bbsDAO.update(bbsID, request.getParameter("bbsTitle"), request.getParameter("bbsContent"));
-		if(result == -1){
-			PrintWriter script = response.getWriter();
-			script.println("<script>");
-			script.println("alert('글쓰기에 실패했습니다.')");
-			script.println("history.back()");
-			script.println("</script>");
-		}//겹치는 경우
-		else {
-			PrintWriter script = response.getWriter();
-			script.println("<script>");
-			script.println("location.href = 'bbs.jsp'");
-			script.println("</script>");
-		}//회원가입 완료
-			}
+			CommentDAO commentDAO = new CommentDAO();
+			int result = commentDAO.delete(bbsID, userID, request.getParameter("comments"));//아직안됨
+			System.out.println(request.getParameter("comments"));
+			if(result == -1){
+				PrintWriter script = response.getWriter();
+				script.println("<script>");
+				script.println("alert('댓글 삭제에 실패했습니다.')");
+				script.println("history.back()");
+				script.println("</script>");
+			}//겹치는 경우
+			else {
+				PrintWriter script = response.getWriter();
+				script.println("<script>");
+				script.println("location.href = 'bbs.jsp'");
+				script.println("</script>");
+			}//회원가입 완료
 		}
 	%>
 </body>

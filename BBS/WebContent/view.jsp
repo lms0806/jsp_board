@@ -1,16 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import = "java.io.PrintWriter" %>
-<%@ page import = "bbs.Web" %>
-<%@ page import = "bbs.WebDAO" %>
+<%@ page import = "web.Web" %>
+<%@ page import = "web.WebDAO" %>
 <%@ page import = "comment.Comment" %>
 <%@ page import = "comment.CommentDAO" %>
+<%@ page import = "ccomment.Ccomment" %>
+<%@ page import = "ccomment.CcommentDAO" %>
 <%@ page import="java.util.ArrayList"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta name = "viewport" content = "width=device-width", initial-scale = "1">
+<meta name="viewport" content="width=device-width initial-scale=1">
 <link rel = "stylesheet" href = "css/bootstrap.min.css">
 <link rel = "stylesheet" href = "css/custom.css">
 <title>서원대학교 컴퓨터공학과 게시판</title>
@@ -63,6 +65,7 @@
 				<li><a href = "main.jsp">메인</a><li>
 				<li class = "active"><a href = "bbs.jsp">게시판</a><li>
 				<li><a href="MyWrite.jsp">내가 쓴 글</a><li>
+				<li><a href="bestlist.jsp">베스트글</a><li>
 			</ul>
 			<%
 				if(userID == null){
@@ -89,7 +92,7 @@
 						data-toggle = "dropdown" role = "button" aria-haspopup = "true"
 						aria-expended = "false">회원관리 <span class = "caret"></span></a>
 					<ul class = "dropdown-menu">
-						<li><a href = "logout.jsp">로그아웃</a></li>
+						<li><a href="logoutAction.jsp">로그아웃</a></li>
 					</ul>
 				</li>
 			</ul>
@@ -121,7 +124,7 @@
 					</tr>
 					<tr>
 						<td>추천수</td>
-						<td colspan = "2"><%=bbs.getWebBest() %></td>
+						<td colspan = "2"><%= bbs.getWebBest() %></td>
 					</tr>
 					<tr>
 						<td>내용</td>
@@ -130,7 +133,7 @@
 				</tbody>
 			</table>
 			<a href = "bbs.jsp" class = "btn btn-primary">목록</a>
-			<a href = "bestup.jsp" class = "btn btn-primary">★추천★</a>
+			<a href = "goodaction.jsp?bbsID=<%= bbsID %>" class = "btn btn-primary">★추천★</a>
 			<%
 				if(userID != null && userID.equals(bbs.getUserID())){
 			%>
@@ -154,8 +157,8 @@
 					<tbody>
 						<tr>
 							<td style = "width: 95%;">
-								<input type = "hidden" class = "form-control" name = "webID" value=<% Integer.parseInt(request.getParameter("bbsID")); %>>
-								<input type = "text" class = "form-control" placeholder = "댓글" name = "commentCont" maxlength = "50">
+								<input type = "hidden" class = "form-control" name = "webID" value=<%= bbsID %>>
+								<input type = "text" class = "form-control" placeholder = "댓글" name = "commentContent" maxlength = "50">
 							</td>
 							<td>
 								<input type = "submit" class = "btn btn-primary pull-right" value = "작성">
@@ -171,19 +174,34 @@
 			<table class = "table table-striped" style = "text-align : center; border : 1px solid #dddddd">
 				<thead>
 					<tr>
-						<th colspan = "3" style = "background-color : #eeeeee; text-align : center;">댓글</th>
+						<th colspan = "4" style = "background-color : #eeeeee; text-align : center;">댓글</th>
 					</tr><%-- 1행 --%>
 				</thead><%-- 속성을 알려줌 --%>
 				<%
 						CommentDAO commentDAO = new CommentDAO();
+						CcommentDAO ccommentDAO = new CcommentDAO();
 						ArrayList<Comment> list = commentDAO.getList(pageNumber, bbs.getBbsID());
-						for(int i = 0; i < list.size(); i++){
+						if(list.size() == 0){
+				%>
+				<tr>
+					<td>작성된 댓글이 없습니다.</td>
+				</tr>
+				<%
+						}
+						else{
+							for(int i = 0; i < list.size(); i++){
 				%>
 				<tr>
 					<td><%= list.get(i).getUserID() %></td>
-					<td><%= list.get(i).getCommentCont() %></td>
-				</tr>
+					<td><%= list.get(i).getCommentContent() %></td>
+					<%
+						String comments = list.get(i).getCommentContent();
+					%>
+					<td><a onclick="return confirm('정말로 삭제하시겠습니까?')" href="deleteCommentAction.jsp?bbsID=<%= bbsID %>&comments=<%= comments %>">삭제</a></td>
+					<td><a href = "ccommentlist.jsp?webID=<%= bbsID %>&commentID=<%= list.get(i).getCommentID() %>" >답글 보기</a></td>
+				<tr>
 				<%
+						}
 					}
 				%>
 			</table>

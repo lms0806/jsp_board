@@ -1,13 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ page import="comment.CommentDAO" %>
+<%@ page import="ccomment.CcommentDAO" %>
 <%@ page import="java.io.PrintWriter"%>
 <%
 	request.setCharacterEncoding("UTF-8");
 %>
+<jsp:useBean id="ccomment" class="ccomment.Ccomment" scope="page" />
+<jsp:setProperty name="ccomment" property="ccommentcontent" />
+<jsp:setProperty name="ccomment" property="webid" />
 <jsp:useBean id="comment" class="comment.Comment" scope="page" />
-<jsp:setProperty name="comment" property="commentContent" />
-<jsp:setProperty name="comment" property="webID" />
+<jsp:setProperty name="comment" property="commentID" />
 <!DOCTYPE html>
 <html>
 <head>
@@ -28,7 +30,7 @@
 			script.println("</script>");
 		}
 		else{
-			if(comment.getCommentContent() == null){
+			if(ccomment.getCcommentcontent() == null){
 				PrintWriter script = response.getWriter();
 				script.println("<script>");
 				script.println("alert('입력이 안된 사항이 있습니다.')");
@@ -36,8 +38,8 @@
 				script.println("</script>");
 			}//입력이 안된 경우
 			else{
-				CommentDAO commentDAO = new CommentDAO();
-				int result = commentDAO.write(comment.getWebID(), userID, comment.getCommentContent());
+				CcommentDAO ccommentDAO = new CcommentDAO();
+				int result = ccommentDAO.write(ccomment.getWebid(), comment.getCommentID(), userID, ccomment.getCcommentcontent());
 				if(result == -1){
 					PrintWriter script = response.getWriter();
 					script.println("<script>");

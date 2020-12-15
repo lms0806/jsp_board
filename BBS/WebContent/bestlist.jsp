@@ -40,14 +40,14 @@
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="main.jsp">내가 쓴 글</a>
+			<a class="navbar-brand" href="main.jsp">베스트글</a>
 		</div>
 		<div class="collapse navbar-collapse" id="#bs-example-navbar-collapse-1">
 			<ul class="nav navbar-nav">
 				<li><a href="main.jsp">메인</a></li>
 				<li><a href="bbs.jsp">게시판</a></li>
-				<li class="active"><a href="MyWrite.jsp">내가 쓴 글</a><li>
-				<li><a href="bestlist.jsp">베스트글</a><li>
+				<li><a href="MyWrite.jsp">내가 쓴 글</a><li>
+				<li class="active"><a href="bestlist.jsp">베스트글</a><li>
 			</ul>
 			<%
 				//로그인안된경우
@@ -95,9 +95,8 @@
 				<tbody>
 					<%
 						WebDAO bbsDAO = new WebDAO();
-						ArrayList<Web> list = bbsDAO.getList(pageNumber);
+						ArrayList<Web> list = bbsDAO.getgoodList(pageNumber);
 						for(int i = 0; i < list.size(); i++){
-							if(list.get(i).getUserID().equals(userID)){
 					%>
 					<tr>
 						<td><%= list.get(i).getBbsID() %></td>
@@ -108,7 +107,6 @@
 						<td><%= list.get(i).getWebViews() %></td>
 					</tr>
 					<%
-							}
 						}
 					%>
 				</tbody>
@@ -116,11 +114,11 @@
 			<%
 				if(pageNumber != 1){
 			%>	
-				<a href = "MyWrite.jsp?pageNumber=<%=pageNumber - 1%>" class = "btn btn-success btn-arraw-left">이전</a>
+				<a href = "bbs.jsp?pageNumber=<%=pageNumber - 1%>" class = "btn btn-success btn-arraw-left">이전</a>
 			<%
 				} if(bbsDAO.nextPage(pageNumber + 1)){
 			%>
-				<a href = "MyWrite.jsp?pageNumber=<%= pageNumber + 1 %>" class = "btn btn-success btn-arraw-left">다음</a>
+				<a href = "bbs.jsp?pageNumber=<%= pageNumber + 1 %>" class = "btn btn-success btn-arraw-left">다음</a>
 			<%
 				}
 			%>
